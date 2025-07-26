@@ -2,14 +2,13 @@
 title: "Modern Security Best Practices for Web Applications"
 classes: wide
 header:
-  teaser: /assets/images/security/web-security-thumb.png
-  overlay_image: /assets/images/security/web-security-banner.png
+  teaser: /assets/images/posts/web-security-best-parctice.png
+  overlay_image: /assets/images/posts/web-security-best-parctice.png
   overlay_filter: 0.4
 ribbon: DarkSlateGray
 excerpt: "Essential security practices every developer should implement in 2024"
 description: "Comprehensive guide to web application security best practices"
 categories:
-  - Security
   - Blog
 tags:
   - Web Security

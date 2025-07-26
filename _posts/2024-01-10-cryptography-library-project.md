@@ -2,14 +2,13 @@
 title: "Real-time Cryptography Library"
 classes: wide
 header:
-  teaser: /assets/images/crypto-project/logo.png
-  overlay_image: /assets/images/crypto-project/banner.png
+  teaser: /assets/images/main/logo-abstract.png
+  overlay_image: /assets/images/main/logo-abstract.png
   overlay_filter: 0.3
 ribbon: DarkSlateGray
 excerpt: "A scalable real-time cryptography library built with modern security principles"
 description: "High-performance cryptography library for real-time applications"
 categories:
-  - Cryptography
   - Projects
 tags:
   - Cryptography
