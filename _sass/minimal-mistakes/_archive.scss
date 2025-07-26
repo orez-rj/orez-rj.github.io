@@ -89,6 +89,13 @@
 
   img {
     width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
   }
 }
 
@@ -148,6 +155,15 @@
 
 .grid__item {
   margin-bottom: 2em;
+  overflow: hidden;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
 
   @include breakpoint($small) {
     float: inline-start;
@@ -220,12 +236,20 @@
   }
 
   .archive__item-teaser {
+    aspect-ratio: 16 / 9;
+    
     @include breakpoint($small) {
       max-height: 200px;
     }
 
     @include breakpoint($medium) {
       max-height: 120px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 }
@@ -301,51 +325,38 @@
     .archive__item-teaser {
       margin-bottom: 2em;
     }
+
+    .archive__item-body {
+      float: inline-start;
+      padding-inline: 0;
+      width: 100%;
+    }
   }
 
   &--left {
-    float: inline-start;
-
-    .archive__item {
+    .archive__item-teaser {
       float: inline-start;
+      margin-inline-end: 2em;
+      width: 40%;
     }
 
-    @include breakpoint($small) {
-      .archive__item-teaser {
-        float: inline-start;
-        width: span(5 of 12);
-      }
-
-      .archive__item-body {
-        float: inline-end;
-        width: span(7 of 12);
-        padding-inline-start: gutter(0.5 of 12);
-        padding-inline-end: gutter(1 of 12);
-      }
+    .archive__item-body {
+      float: inline-end;
+      padding-inline: 0 0 4em;
+      width: calc(100% - 40% - 2em);
     }
   }
 
   &--right {
-    float: inline-end;
-
-    .archive__item {
+    .archive__item-teaser {
       float: inline-end;
+      margin-inline-start: 2em;
+      width: 40%;
     }
 
-    @include breakpoint($small) {
-      text-align: end;
-
-      .archive__item-teaser {
-        float: inline-end;
-        width: span(5 of 12);
-      }
-
-      .archive__item-body {
-        float: inline-start;
-        width: span(7 of 12);
-        padding-inline-start: gutter(1 of 12);
-        padding-inline-end: gutter(0.5 of 12);
-      }
+    .archive__item-body {
+      float: inline-start;
+      width: calc(100% - 40% - 2em);
     }
   }
 

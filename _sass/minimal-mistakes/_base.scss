@@ -8,6 +8,7 @@ html {
   min-height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -78,8 +79,8 @@ ins {
   }
 }
 
-del a {
-  color: inherit;
+del {
+  text-decoration: line-through;
 }
 
 /* reduce orphans and widows when printing */
@@ -101,7 +102,7 @@ fieldset {
 
 abbr[title],
 abbr[data-original-title] {
-  text-decoration: none;
+  text-decoration: underline dotted;
   cursor: help;
   border-bottom: 1px dotted $text-color;
 }
@@ -109,18 +110,18 @@ abbr[data-original-title] {
 /* blockquotes */
 
 blockquote {
-  margin-block: 2em;
-  margin-inline-end: 1em;
-  padding-inline: 1em;
+  margin: 2em 1em 2em 0;
+  padding-left: 1em;
+  padding-right: 1em;
   font-style: italic;
-  border-inline-start: 0.25em solid $primary-color;
+  border-left: 0.25em solid $primary-color;
 
   cite {
     font-style: italic;
 
-    &::before {
+    &:before {
       content: "\2014";
-      padding-inline-end: 5px;
+      padding-right: 5px;
     }
   }
 }
@@ -128,6 +129,10 @@ blockquote {
 /* links */
 
 a {
+  color: $link-color;
+  text-decoration: underline;
+  transition: color 0.3s ease-in-out;
+
   &:focus {
     @extend %tab-focus;
   }
@@ -243,6 +248,24 @@ figure {
   }
 }
 
+/* Enhanced image handling */
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border: 0;
+  border-radius: $border-radius;
+  transition: transform 0.3s ease-in-out;
+
+  &.img--rounded {
+    border-radius: 50%;
+  }
+
+  &.img--bordered {
+    border: 2px solid $border-color;
+  }
+}
+
 /* Figure captions */
 
 figcaption {
@@ -311,31 +334,35 @@ nav {
 }
 
 /*
-   Global animation transition
+   Global animation classes
    ========================================================================== */
 
-b,
-i,
-strong,
-em,
-blockquote,
-p,
-q,
-span,
-figure,
-img,
-h1,
-h2,
-header,
-input,
-a,
-tr,
-td,
-form button,
-input[type="submit"],
-.btn,
-.highlight,
-.archive__item-teaser {
-  -webkit-transition: $global-transition;
-  transition: $global-transition;
+.intro-enter {
+  opacity: 0;
+}
+
+.intro-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.intro-exit {
+  opacity: 1;
+}
+
+.intro-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/*
+   Global transition settings
+   ========================================================================== */
+
+%tab-focus {
+  /* Default */
+  outline: thin dotted $accent-color;
+  /* Webkit */
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
