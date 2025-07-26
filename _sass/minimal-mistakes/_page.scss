@@ -135,20 +135,6 @@ body {
     }
   }
 
-  :not(pre) > code {
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-    font-size: 0.8em;
-    background: $code-background-color;
-    border-radius: $border-radius;
-
-    &::before,
-    &::after {
-      letter-spacing: -0.2em;
-      content: "\00a0"; /* non-breaking space*/
-    }
-  }
-
   dt {
     margin-top: 1em;
     font-family: $sans-serif;
@@ -337,11 +323,6 @@ body {
   margin-bottom: 10px;
   font-size: $type-size-6;
   text-transform: uppercase;
-}
-
-.page__meta-sep::before {
-  content: "\2022";
-  padding-inline: 0.5em;
 }
 
 /*
