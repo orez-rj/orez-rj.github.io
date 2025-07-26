@@ -343,7 +343,7 @@ nav {
 
 .intro-enter-active {
   opacity: 1;
-  transition: opacity 300ms;
+  transition: opacity 0.3s;
 }
 
 .intro-exit {
@@ -352,7 +352,7 @@ nav {
 
 .intro-exit-active {
   opacity: 0;
-  transition: opacity 300ms;
+  transition: opacity 0.3s;
 }
 
 /*
@@ -361,7 +361,7 @@ nav {
 
 %tab-focus {
   /* Default */
-  outline: thin dotted $accent-color;
+  outline: thin dotted $focus-color;
   /* Webkit */
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
