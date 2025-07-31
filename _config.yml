@@ -21,7 +21,7 @@ title                    : "orez-rj"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Or Ezra"
-description              : "Security, Cryptography, and scaleable real-time systems"
+description              : "Security, Cryptography, Scaleable real-time and distributed systems"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -115,7 +115,7 @@ analytics:
 author:
   name             : "Or Ezra"
   avatar           : "/assets/images/main/avatar.png"
-  bio              : "Security, Cryptography, and scaleable real-time systems"
+  bio              : "Security-curious backend dev"
   location         : "Israel"
   email            :
   links:
