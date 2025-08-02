@@ -5,7 +5,7 @@ layout: single
 author_profile: true
 ---
 
-Hi, I’m Or Ezra — but you can call me **orez-rj**.
+Hi, I’m Or Ezra, a.k.a. **orez-rj**.
 
 I’m a backend developer at Fortinet with a B.Sc. in Computer Science from the Open University of Israel. Over the past few years, I’ve grown increasingly obsessed with the foundations of cyberspace - things like **encryption**, **authentication**, and **real-time systems**.
 
