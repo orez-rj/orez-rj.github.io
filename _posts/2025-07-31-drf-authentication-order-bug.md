@@ -25,7 +25,7 @@ toc_label: "DRF Auth Internals"
 toc_icon: "bug"
 ---
 
-# Introduction
+# The sneaky bug
 
 Not all bugs scream at you. Some whisper in 403s.
 
@@ -35,7 +35,7 @@ After triple-checking everything and diving deep into DRF’s internals, I found
 
 Let me walk you through what happened, what I learned, and why I believe this is a real bug in DRF.
 
-# Background: DRF Authentication Flow
+## Background: DRF Authentication Flow
 
 In DRF, authentication is handled by a list of classes defined in `DEFAULT_AUTHENTICATION_CLASSES`. Each class tries to authenticate the request, raising `AuthenticationFailed` on failure or returning `None` if it chooses not to act.
 
@@ -59,7 +59,7 @@ Because DRF uses the **first** authenticator’s header presence to decide statu
 
 The rationale: session first → no header → 403; token-first → header present → 401.
 
-# My Setup
+## My Setup
 
 I had this configuration:
 
@@ -77,7 +77,7 @@ My `BearerAuthentication` inherits from `BaseAuthentication` and returns `"Beare
 
 Yet failed bearer requests returned **403**, not **401**-because `SessionAuthentication` came first.
 
-# DRF Source Code Digging
+## DRF Source Code Digging
 
 In `rest_framework/views.py` (around line 189), DRF handles exceptions like this:
 
@@ -139,7 +139,7 @@ Until then, the only reliable workaround is:
 
 👉 **Always put the authenticator likely to raise errors (e.g. your BearerAuthentication) *first* in the list, or implement your own exception handler**
 
-# Conclusion
+## Conclusion
 
 This subtle auth-status behavior can sneakily break API logic or client-side handling. DRF’s current design serves spec compliance-but sacrifices developer intuition when multiple authentication schemes are involved.
 
