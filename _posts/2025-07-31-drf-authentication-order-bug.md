@@ -2,8 +2,8 @@
 title: "The Sneaky DRF Authentication Bug: When 401 Turns into 403"
 classes: wide
 header:
-  teaser: /assets/images/posts/drf-auth-bug.png
-  overlay_image: /assets/images/posts/drf-auth-bug.png
+  teaser: /assets/images/posts/drf-auth-bug/teaser.png
+  overlay_image: /assets/images/posts/drf-auth-bug/teaser.png
   overlay_filter: 0.3
 ribbon: Crimson
 excerpt: "A silent bug in Django Rest Framework caused my API to return 403 instead of 401. The culprit? Authentication class order. Here's what I discovered deep in the source."
@@ -43,8 +43,6 @@ When authentication fails, DRF must return either a **401 Unauthorized** or **40
 
 If no class provides a header-that is, if all return `None`-DRF defaults to 403. Otherwise, it returns 401.
 
----
-
 ## This Is Known-and Here’s Why (but I Still Think It’s a Bug)
 
 DRF documentation clearly states:
@@ -61,8 +59,6 @@ Because DRF uses the **first** authenticator’s header presence to decide statu
 
 The rationale: session first → no header → 403; token-first → header present → 401.
 
----
-
 # My Setup
 
 I had this configuration:
@@ -75,7 +71,7 @@ REST_FRAMEWORK = {
         myapp.authentication.BearerAuthentication,
     )
 }
-````
+```
 
 My `BearerAuthentication` inherits from `BaseAuthentication` and returns `"Bearer"` in `authenticate_header()`.
 
@@ -130,8 +126,6 @@ DRF treats this behavior as expected and arguably spec‑compliant-but it still 
 Importantly, returning the `WWW-Authenticate` header of the **class that raised** `AuthenticationFailed` would **not violate RFC 7235**. The spec requires that a **401 Unauthorized** response *must* include at least one `WWW-Authenticate` header identifying the correct authentication challenge. Choosing the header from the authenticator that failed actually aligns better with that rule, precisely informing the client which type of credentials are required-without risking a spec violation.([http.dev](https://http.dev/www-authenticate))
 
 In contrast, DRF’s current approach-relying on the first listed authenticator-can lead to misleading 403 responses when a later scheme actually fails.
-
----
 
 ## Proposed Fix and Upcoming PR
 

@@ -2,8 +2,8 @@
 title: "Kubix: A Smarter CLI Wrapper for kubectl"
 classes: wide
 header:
-  teaser: /assets/images/posts/kubix-logo.png
-  overlay_image: /assets/images/posts/kubix-logo.png
+  teaser: /assets/images/posts/kubix-project/teaser.png
+  overlay_image: /assets/images/posts/kubix-project/teaser.png
   overlay_filter: 0.3
 ribbon: DarkSlateGray
 excerpt: "Kubix is a Rust-powered CLI wrapper around kubectl that simplifies your Kubernetes workflow with smart aliases and powerful UX."
@@ -34,30 +34,32 @@ Kubix is a smart CLI wrapper around `kubectl`, written in *Rust*, that helps you
 
 I wanted to learn Rust. I also wanted to streamline my everyday work with `kubectl`, which often involves typing long repetitive commands and switching contexts or namespaces.
 
-Sure, there are existing scripts and even tools like `kubectl ai`, but building *yet another wrapper* gave me the hands-on experience I needed, and a way to tailor the tool exactly to how I work. No better way to learn a language than solving a problem you care about.
+Sure, there are existing wrappers or scripts and even tools like `kubectl ai`, but building *yet another wrapper* gave me the hands-on experience I needed, and a way to tailor the tool exactly to how I work. No better way to learn a language than solving a problem you care about.
 
 ## What Kubix Does
 
 Kubix acts as a shortcut layer on top of `kubectl`. It offers:
 
-- **Faster, cleaner commands** for common tasks (e.g., `kubix pods` instead of `kubectl get pods`)
+- **Faster, cleaner commands** for common tasks (e.g., `kubix pods pattern` instead of `kubectl get pods | grep pattern`)
 - **Context-aware behavior** for easier switching between clusters and namespaces
-- **Aliased commands** for logs, exec, describe, delete, and more
+- **Aliased commands** for logs, and pods (e.g., `kubix pods` and `kubix pod` will work the same!)
 - **Powerful CLI UX** thanks to Rust's blazing performance and the [`clap`](https://docs.rs/clap/latest/clap/) framework
-- **Extensibility** - future support planned for fuzzy search, natural language (LLM) inputs, and command history
+- **Extensibility** - future support planned for additonal fuzzy search, natural language (LLM) inputs, and command history
 
 Here’s a taste:
 
 ```bash
-# List all pods
-kubix pods
+# List all pods in the testing context
+kubix pods -c testing
 
-# Execute into a pod
+# Bash into a pod with pattern my-app
 kubix exec my-app
 
-# View logs
-kubix logs my-app
+# View the last 10 logs from that pod
+kubix logs my-app -t 10
 ```
+
+---
 
 ### Beautiful CLI Output (Yes, It Sparks Joy)
 
@@ -65,37 +67,29 @@ Kubix isn’t just fast - it’s also pleasant to use.
 
 Using the excellent [`tabled`](https://docs.rs/tabled/) crate, Kubix formats Kubernetes objects (like pods, contexts, etc.) into clean, readable tables that make your terminal feel more like a dashboard.
 
-Example:
+*Examples:*
 
-```text
-+------+---------------------+-------------+
-| NAME |     NAMESPACE      |     AGE     |
-+------+---------------------+-------------+
-| web  | default             | 3h 21m ago  |
-| api  | production-backend  | 7m 42s ago  |
-+------+---------------------+-------------+
-```
+Listing contexts with current marked ->
+
+![image.png](/assets/images/posts/kubix-project/kubix-example-1.png)
+
+Listing pods matching a pattern ->
+
+![image.png](/assets/images/posts/kubix-project/kubix-example-2.png)
 
 There’s also interactive selection using pattern matching and fuzzy input.
 
 ```bash
-kubix exec
+kubix ctx tesing
 ```
 
-This command will show a numbered list of pods matching your query, and let you select one easily by number or name:
+This command will show a numbered list of contexts matching your query, and let you select one easily by number, it works for pods and namespaces as well:
 
-```text
-Which pod do you want to exec into?
-
-[0] web-5f68d7b9fd-xk4zb
-[1] api-57c4b66dc5-tkp8n
-[2] db-66ccfcbf55-72vvn
-
-Type number or pattern:
-> 1
-```
+![image.png](/assets/images/posts/kubix-project/kubix-example-3.png)
 
 This kind of UX makes `kubectl` feel almost... friendly. 😄
+
+---
 
 ### Automated Cross-Platform Releases
 
@@ -103,15 +97,14 @@ One thing I really wanted was to make Kubix **zero-effort to install** on any sy
 
 To achieve that, I set up a fully automated GitHub Action that:
 
-* Detects version bumps via `cargo release`
+* Detects version bumps in the `cargo.toml` file
 * Builds static binaries for Linux, macOS, and Windows
-* Attaches them to a new GitHub release
-* Updates the install script
+* Attaches them to a new GitHub release and tag
 
 All of this happens on push to `main` after merging `dev`, so cutting a new release is as easy as:
 
 ```bash
-cargo release minor
+cargo release
 ```
 
 Kubix is ready-to-go for anyone, anywhere - no Rust toolchain required. Just download, drop it in your `$PATH`, and start kubing like a pro.
@@ -122,18 +115,14 @@ Kubix is built using:
 
 * 🦀 **Rust** - For performance and safety
 * 🧼 **Clap** - To parse and structure CLI commands cleanly
-* 📦 **cargo-release + GitHub Actions** - For versioned multi-platform releases
-* 💻 **Cross-platform support** - Tested on Linux and macOS (Windows support planned)
+* 📦 **GitHub Actions** - For versioned multi-platform releases
+* 💻 **Cross-platform support** - Tested on Linux and macOS (haven't tested the Windows version yet)
 
 If you want to understand how it works or contribute, check out the source: [orez-rj/kubix](https://github.com/orez-rj/kubix)
 
 ## How to Install
 
-Download the latest binary from the [Releases](https://github.com/orez-rj/kubix/releases) page or install with `cargo`:
-
-```bash
-cargo install kubix
-```
+Download the latest binary from the [Releases](https://github.com/orez-rj/kubix/releases) page and drop it in your `$PATH`
 
 Or use the installer script:
 
